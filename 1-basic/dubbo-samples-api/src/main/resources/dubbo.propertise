@@ -1,0 +1,2 @@
+### 接口级注册
+dubbo.application.register-mode=interface

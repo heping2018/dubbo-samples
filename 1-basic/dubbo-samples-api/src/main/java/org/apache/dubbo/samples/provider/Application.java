@@ -22,6 +22,7 @@ import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.samples.api.GreetingsService;
+import org.apache.dubbo.samples.api.TestService;
 
 public class Application {
     private static final String ZOOKEEPER_HOST = System.getProperty("zookeeper.address", "127.0.0.1");
@@ -32,12 +33,15 @@ public class Application {
         ServiceConfig<GreetingsService> service = new ServiceConfig<>();
         service.setInterface(GreetingsService.class);
         service.setRef(new GreetingsServiceImpl());
-
+        ServiceConfig<TestService> service2 = new ServiceConfig<>();
+        service2.setInterface(TestService.class);
+        service2.setRef(new TestServiceImpl());
         DubboBootstrap.getInstance()
                 .application("first-dubbo-provider")
                 .registry(new RegistryConfig(ZOOKEEPER_ADDRESS))
                 .protocol(new ProtocolConfig("dubbo", -1))
                 .service(service)
+                .service(service2)
                 .start()
                 .await();
     }
